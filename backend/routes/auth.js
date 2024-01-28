@@ -61,7 +61,54 @@ router.post('/createuser', [
 }
     catch(error){
         console.log(error.message);
-        res.status(500).send("some error occured");
+        res.status(500).send("Internal server error");
+    }
+});
+
+// Authenticating a user using :POST "api/auth/login". No login required
+router.post('/login', [
+    body('email', 'enter a valid email').isEmail(),
+    body('password', 'cannot be empty').exists()
+], async (req, res) => {
+    // If there are errors, return Bad Request and errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Getting email and password from user
+    const { email, password } = req.body;
+
+    try {
+        // Checking whether the email exists or not
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ error: "Please enter correct credentials" });
+        }
+
+        // Comparing the user-entered password with the hashed password stored in the database
+        const passwordCompare = await bcrypt.compare(password, user.password);
+        console.log(password);
+        console.log(passwordCompare);
+        
+        if (!passwordCompare) {
+            return res.status(404).json({ error: "Please enter correct credentials" });
+        }
+        
+        // If login credentials are correct, generate and send a token 
+        const payload = {
+            user: {
+                id: user.id
+            }
+        };
+        // Sign JWT token
+        const authToken = jwt.sign(payload, JWT_SECRET);
+
+        res.json({ authToken });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Internal server error");
     }
 });
 
