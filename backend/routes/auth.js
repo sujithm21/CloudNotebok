@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var fetchuser = require('../middleware/fetchuser');
 
 const { body, validationResult } = require('express-validator');
 
@@ -12,7 +13,7 @@ router.use(express.json());
 //json web token secret
 const JWT_SECRET = "sujithmakam$joshnareddy"
 
-// Creating user using POST "api/auth/createuser". No login requires
+// Route:1 Creating user using POST "api/auth/createuser". No login requires
 router.post('/createuser', [
     body('email').isEmail(),
     body('name').isLength({ min: 3 }),
@@ -65,7 +66,7 @@ router.post('/createuser', [
     }
 });
 
-// Authenticating a user using :POST "api/auth/login". No login required
+// Route:2 Authenticating a user using :POST "api/auth/login". No login required
 router.post('/login', [
     body('email', 'enter a valid email').isEmail(),
     body('password', 'cannot be empty').exists()
@@ -89,8 +90,8 @@ router.post('/login', [
 
         // Comparing the user-entered password with the hashed password stored in the database
         const passwordCompare = await bcrypt.compare(password, user.password);
-        console.log(password);
-        console.log(passwordCompare);
+        // console.log(password);
+        // console.log(passwordCompare);
         
         if (!passwordCompare) {
             return res.status(404).json({ error: "Please enter correct credentials" });
@@ -112,4 +113,19 @@ router.post('/login', [
     }
 });
 
+
+
+// Route:3 Getting Loggedin User Details using : POST "api/auth/getuser". Login required
+router.post('/getuser', fetchuser, async (req, res) => {
+try {
+    userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user);
+} catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal server error");
+}
+})
+
 module.exports = router;
+
