@@ -11,7 +11,7 @@ const { body, validationResult } = require('express-validator');
 router.use(express.json());
 
 //json web token secret
-const JWT_SECRET = "sujithmakam$joshnareddy"
+const JWT_SECRET = "sujithmakam$joshnareddy";
 
 // Route:1 Creating user using POST "api/auth/createuser". No login requires
 router.post('/createuser', [
