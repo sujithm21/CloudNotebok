@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import NoteContext from '../Context/notes/NoteContext';
 import NoteItem from './Noteitem'; // Correct the import to match the actual file name convention
 
 const Notes = () => {
-  const { notes } = useContext(NoteContext);
+  const {notes, GetNote} = useContext(NoteContext);
+  useEffect(()=>{
+    GetNote();
+  },[])
 
   return (
     <>
