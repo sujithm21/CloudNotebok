@@ -52,15 +52,7 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }),
     });
 
-    const note = {
-      _id: "65bb1ff42ced091a6c4d6dc3",
-      user: "65b6497e4bb3e8d673abf8fa",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2024-02-01T04:37:08.291Z",
-      __v: 0,
-    };
+    const note = await response.json();
     setNotes(notes.concat(note));
   };
 
@@ -98,7 +90,8 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
+    const json = await response.json();
+    console.log(json);
 
     // //Logic to edit the note
     //       for (let index = 0; index < array.length; index++) {
@@ -121,7 +114,7 @@ const NoteState = (props) => {
 
   return (
     <NoteContext.Provider
-      value={{ notes, AddNote, deleteNote, editNote, GetNote}}
+      value={{ notes, AddNote, deleteNote, editNote, GetNote }}
     >
       {props.children}
     </NoteContext.Provider>

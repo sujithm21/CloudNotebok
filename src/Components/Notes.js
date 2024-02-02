@@ -3,13 +3,15 @@ import NoteContext from "../Context/notes/NoteContext";
 import NoteItem from "./Noteitem";
 
 const Notes = () => {
-  const { notes, GetNote } = useContext(NoteContext);
+  const { notes, GetNote, editNote } = useContext(NoteContext);
   useEffect(() => {
     GetNote();
   }, []);
 
   const ref = useRef(null);
+  const refClose = useRef(null);
   const [note, setNote] = useState({
+    id: "",
     etitle: "",
     edescription: "",
     etag: "default",
@@ -18,6 +20,7 @@ const Notes = () => {
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,
@@ -25,7 +28,8 @@ const Notes = () => {
   };
 
   const handleClcik = (e) => {
-    e.preventDefault();
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+    refClose.current.click();
   };
 
   const onChange = (e) => {
@@ -119,6 +123,7 @@ const Notes = () => {
             <div className="modal-footer">
               <button
                 type="button"
+                ref={refClose}
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
@@ -136,6 +141,9 @@ const Notes = () => {
         </div>
       </div>
       <div className="row my-3">
+        <div className="container">
+          {notes.length === 0 && "No Notes to Display"}
+        </div>
         {notes.map((note) => (
           <NoteItem key={note._id} updateNote={updateNote} note={note} />
         ))}
