@@ -38,9 +38,6 @@ const AddNote = () => {
             onChange={onChange}
             value={note.title}
           />
-          <div id="text" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
         </div>
         <div className="mb-3">
           <label htmlFor="description" className="form-label">

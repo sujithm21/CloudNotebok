@@ -1,7 +1,7 @@
-import AddNote from "./AddNote";
 import Notes from "./Notes";
+import AddNote from "./AddNote";
 
-const Home = () => {
+export const Home = () => {
   return (
     <div>
       <AddNote />
