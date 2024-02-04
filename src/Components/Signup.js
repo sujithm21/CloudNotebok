@@ -27,17 +27,18 @@ const Signup = (props) => {
       const json = await response.json();
       console.log(json);
       if (json.success) {
-        localStorage.setItem("token", json.authtoken);
+        console.log(json.authToken);
+        localStorage.setItem("token", json.authToken);
         navigate("/");
         //props.showAlert("Account Created Successfully!!", "success");
-        alert("Account Created Successfully!!")
+        alert("Account Created Successfully!!");
       } else {
-       // props.showAlert("Invalid Credentials", "danger");
-       alert("Invalid Credentials")
+        // props.showAlert("Invalid Credentials", "danger");
+        alert("Invalid Credentials");
       }
     } else {
       //props.showAlert("Enter the your Password Carefully", "danger");
-      alert("Enter the your Password Carefully")
+      alert("Enter the your Password Carefully");
     }
   };
 
