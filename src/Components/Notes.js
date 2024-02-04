@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import NoteContext from "../Context/notes/NoteContext";
 import NoteItem from "./Noteitem";
 import { useNavigate } from "react-router-dom";
+import AddNote from "./AddNote";
 
-const Notes = () => {
+const Notes = (props) => {
   const { notes, GetNote, editNote } = useContext(NoteContext);
   let navigate = useNavigate();
   useEffect(() => {
@@ -36,6 +37,7 @@ const Notes = () => {
   const handleClcik = (e) => {
     editNote(note.id, note.etitle, note.edescription, note.etag);
     refClose.current.click();
+    props.showAlert("Note Updated Successfully!!", "success");
   };
 
   const onChange = (e) => {
@@ -44,6 +46,8 @@ const Notes = () => {
 
   return (
     <>
+      {/* <AddNote showAlert={props.showAlert} /> */}
+
       <button
         type="button"
         ref={ref}
@@ -151,7 +155,12 @@ const Notes = () => {
           {notes.length === 0 && "No Notes to Display"}
         </div>
         {notes.map((note) => (
-          <NoteItem key={note._id} updateNote={updateNote} note={note} />
+          <NoteItem
+            key={note._id}
+            updateNote={updateNote}
+            showAlert={props.showAlert}
+            note={note}
+          />
         ))}
       </div>
     </>

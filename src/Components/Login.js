@@ -24,11 +24,11 @@ const Login = (props) => {
       localStorage.setItem("lastname", "Smith");
       localStorage.setItem("token", json.authToken);
       navigate("/");
-      //props.showAlert("Logged in Successfully!!", "success");
-      alert("Logged in Successfully!!");
+      props.showAlert("Logged in Successfully!!", "success");
+      //alert("Logged in Successfully!!");
     } else {
-      //props.showAlert("Invalid Credentials", "danger");
-      alert("Invalid Credentials");
+      props.showAlert("Invalid Credentials", "danger");
+      //alert("Invalid Credentials");
     }
   };
 
