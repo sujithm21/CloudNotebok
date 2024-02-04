@@ -1,17 +1,25 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 
 const Navbar = () => {
   let location = useLocation();
   React.useEffect(() => {
     console.log(location.pathname);
   }, [location]);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate("/login");
+  };
+
   return (
     <div>
       <nav className="navbar bg-primary" data-bs-theme="dark">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            iNotebook
+            Cloud Notebook
           </Link>
           <button
             className="navbar-toggler"
@@ -44,22 +52,28 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-            <form className="d-flex justify-content-center" role="search">
-              <Link
-                type="button"
-                className="btn btn-outline-info mx-2"
-                to="/login"
-              >
-                Login
-              </Link>
-              <Link
-                type="button"
-                className="btn btn-outline-info mx-2"
-                to="/signup"
-              >
-                sign up
-              </Link>
-            </form>
+            {!localStorage.getItem("token") ? (
+              <form className="d-flex justify-content-center" role="search">
+                <Link
+                  type="button"
+                  className="btn btn-outline-info mx-2"
+                  to="/login"
+                >
+                  Login
+                </Link>
+                <Link
+                  type="button"
+                  className="btn btn-outline-info mx-2"
+                  to="/signup"
+                >
+                  sign up
+                </Link>
+              </form>
+            ) : (
+              <button onClick={handleLogout} className="btn btn-primary">
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </nav>
