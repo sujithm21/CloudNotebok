@@ -12,7 +12,7 @@ const NoteState = (props) => {
   // const update = () => {
   //     setTimeout(() => {
   //         setState({
-  //             name: "jahnavi",
+  //             name: "ja ja",
   //             section: "A2"
   //         });
   //     }, 1000);
