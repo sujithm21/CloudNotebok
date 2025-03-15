@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate} from "react-router-dom";
-import Alert from "./Alert";
+// import Alert from "./Alert";
 
 const Navbar = () => {
   let location = useLocation();

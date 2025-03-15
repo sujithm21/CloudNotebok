@@ -9,7 +9,10 @@
 
 // module.exports = connectToMongo;
 
-require("dotenv").config()
+//require("dotenv").config()
+require('dotenv').config();
+console.log('MongoDB URI:', process.env.MONGO_URI); // Debugging step
+
 const mongoose = require("mongoose")
 
 const mongoURI = process.env.MONGO_URI
